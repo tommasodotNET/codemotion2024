@@ -1,0 +1,101 @@
+{
+  "$schema": "https://github.com/Azure/data-api-builder/releases/download/v1.1.7/dab.draft.schema.json",
+  "data-source": {
+    "database-type": "mssql",
+    "connection-string": "@env('ConnectionStrings__Agency')",
+    "options": {}
+  },
+  "runtime": {
+    "rest": {
+      "enabled": true,
+      "path": "/api",
+      "request-body-strict": true
+    },
+    "graphql": {
+      "enabled": true,
+      "path": "/graphql",
+      "allow-introspection": true
+    },
+    "host": {
+      "cors": {
+        "origins": [],
+        "allow-credentials": false
+      },
+      "mode": "development"
+    }
+  },
+  "entities": {
+    "Offerings": {
+      "source": {
+        "object": "[dbo].[Offerings]",
+        "type": "table"
+      },
+      "graphql": {
+        "enabled": true,
+        "type": {
+          "singular": "Offerings",
+          "plural": "Offerings"
+        }
+      },
+      "rest": {
+        "enabled": true
+      },
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": [
+            {
+              "action": "*"
+            }
+          ]
+        }
+      ],
+      "relationships": {
+        "offeringDetails": {
+          "cardinality": "one",
+          "target.entity": "OfferingDetails",
+          "source.fields": [],
+          "target.fields": [],
+          "linking.source.fields": [],
+          "linking.target.fields": []
+        }
+      }
+    },
+    "OfferingDetails": {
+      "source": {
+        "object": "[dbo].[OfferingDetails]",
+        "type": "table"
+      },
+      "graphql": {
+        "enabled": true,
+        "type": {
+          "singular": "OfferingDetails",
+          "plural": "OfferingDetails"
+        }
+      },
+      "rest": {
+        "enabled": true
+      },
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": [
+            {
+              "action": "*"
+            }
+          ]
+        }
+      ],
+      "relationships": {
+        "offerings": {
+          "cardinality": "many",
+          "target.entity": "Offerings",
+          "source.fields": [],
+          "target.fields": [],
+          "linking.source.fields": [],
+          "linking.target.fields": []
+        }
+      }
+    }
+  }
+}
